@@ -33,6 +33,7 @@ class LogIn: UIViewController {
                 }
                 
                 else {
+                    Email.Constants.email = cleanEmail
                     self.performSegue(withIdentifier: "toHome2", sender: self)
                 }
             }

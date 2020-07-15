@@ -4,55 +4,64 @@ import FirebaseFirestore
 
 class Subject: UIViewController {
     
-    struct SubjectList {
-        static var myTempData = [String()]
-        static var myTempTime = [String()]
-        static var myTempBreak = [String()]
+    struct SubjectStruct {
+        static var mySubjects = [String()]
+        static var myTimes = [String()]
+        static var myBreaks = [String()]
+        static var myUID = String()
     }
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var add: UIButton!
+    @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
-    
-    var myData = SubjectList.myTempData
-    var myTime = SubjectList.myTempTime
-    var myBreak = SubjectList.myTempBreak
     
     let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        add.layer.cornerRadius = 7.0
+        addButton.layer.cornerRadius = 7.0
         nextButton.layer.cornerRadius = 7.0
         
         let nib = UINib(nibName: "TableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "TableViewCell")
         tableView.delegate = self
         tableView.dataSource = self
+        
+        self.tableView?.rowHeight = 40.0
     }
     
     @IBAction func addTapped(_ sender: Any) {
         self.performSegue(withIdentifier: "toAddSubjects", sender: self)
     }
     
+    
     @IBAction func nextTapped(_ sender: Any) {
-        let subjectDoc = db.collection("subjects").document(Email.Constants.email)
-        subjectDoc.setData(["Subjects": myData, "Times": myTime, "Breaks": myBreak])
+        
+        let cleanEmail = Email.Constants.email
+        
+        let subjectDoc = self.db.collection("subjects").document()
+        subjectDoc.setData(["subjectArray": SubjectStruct.mySubjects, "timeArray": SubjectStruct.myTimes, "breakArray": SubjectStruct.myBreaks], merge: true)
+        
+        let user = self.db.collection("users").document(cleanEmail)
+        user.setData(["subjectUID": subjectDoc.documentID], merge: true)
+        
         self.performSegue(withIdentifier: "toQuestionOne", sender: self)
     }
-    
 }
 
 extension Subject: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return myData.count
+        SubjectStruct.mySubjects.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
-        cell.label?.text = myData[indexPath.row]
+        if cell.label.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            cell.alpha = 0.0
+        }
+        cell.label.text? = SubjectStruct.mySubjects[indexPath.row]
         return cell
     }
 }

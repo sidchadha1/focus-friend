@@ -6,15 +6,20 @@ class Name: UIViewController {
     
     struct Constants {
         static var firstName = String()
+        static var lastName = String()
     }
     
     @IBOutlet weak var firstNameIn: UITextField!
+    @IBOutlet weak var lastNameIn: UITextField!
     @IBOutlet weak var goButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         goButton.layer.cornerRadius = 7.0
+        
+        firstNameIn.autocorrectionType = .no
+        lastNameIn.autocorrectionType = .no
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         view.addGestureRecognizer(tap)
@@ -29,14 +34,17 @@ class Name: UIViewController {
 
         else {
             let cleanFirstName = firstNameIn.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            let cleanLastName = lastNameIn.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             Constants.firstName = cleanFirstName
+            Constants.lastName = cleanLastName
 
             self.performSegue(withIdentifier: "toEmail", sender: self)
         }
     }
     
     func validateFields() -> String? {
-        if firstNameIn.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+        if firstNameIn.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
+            lastNameIn.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             return ("Please fill in all fields!")
         }
 

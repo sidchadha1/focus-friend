@@ -31,10 +31,13 @@ class Password: UIViewController {
         
             Auth.auth().createUser(withEmail: cleanEmail, password: cleanPassword) { (result, err) in
                 if err != nil {
-                    self.showError(error: "There was an error in creating your account.")
+                    print("There was an error in creating your account.")
                 }
         
                 else {
+                    let user = self.db.collection("users").document(cleanEmail)
+                    user.setData(["firstName": Name.Constants.firstName, "lastName": Name.Constants.lastName, "email": Email.Constants.email])
+                    
                     self.performSegue(withIdentifier: "toHome", sender: self)
                 }
             }

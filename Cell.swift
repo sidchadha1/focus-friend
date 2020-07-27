@@ -1,23 +1,24 @@
 //
-//  TableViewCell.swift
+//  Cell.swift
 //  focusfriend
 //
-//  Created by Jayanth Peetla on 7/14/20.
+//  Created by Jayanth Peetla on 7/27/20.
 //  Copyright © 2020 Peetla. All rights reserved.
 //
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
-
+class Cell: UITableViewCell {
+    
     @IBOutlet weak var background: UIView!
     @IBOutlet weak var label: UILabel!
     
+    static func nib() -> UINib {
+        return UINib(nibName: "SubjectCell", bundle: nil)
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        overrideUserInterfaceStyle = .light
-        // Initialization code
         background.layer.cornerRadius = 7.0
     }
 

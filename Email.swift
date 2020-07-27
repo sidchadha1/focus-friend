@@ -1,20 +1,19 @@
 import UIKit
-import Firebase
-import FirebaseFirestore
 
 class Email: UIViewController {
     
-    struct Constants {
+    struct Data {
         static var email = String()
     }
     
-    let db = Firestore.firestore()
-    
     @IBOutlet weak var emailIn: UITextField!
     @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        overrideUserInterfaceStyle = .light
         
         nextButton.layer.cornerRadius = 7.0
         
@@ -31,10 +30,7 @@ class Email: UIViewController {
         
         else {
             let cleanEmail = emailIn.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            Constants.email = cleanEmail
-            
-            let user = db.collection("users").document(cleanEmail)
-            user.setData(["firstName": Name.Constants.firstName, "email": cleanEmail])
+            Data.email = cleanEmail
             
             self.performSegue(withIdentifier: "toPassword", sender: self)
         }
@@ -49,11 +45,11 @@ class Email: UIViewController {
     }
     
     func showError(error: String) {
-        
+        errorLabel.text = error
+        errorLabel.alpha = 1
     }
     
     @objc func handleTap() {
         view.endEditing(true)
     }
-    
 }

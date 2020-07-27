@@ -8,14 +8,17 @@ class Password: UIViewController {
     
     @IBOutlet weak var passIn: UITextField!
     @IBOutlet weak var letsGo: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
-        view.addGestureRecognizer(tap)
+        overrideUserInterfaceStyle = .light
         
         letsGo.layer.cornerRadius = 7.0
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
+        view.addGestureRecognizer(tap)
     }
     
     @IBAction func letsGoTapped(_ sender: Any) {
@@ -26,7 +29,7 @@ class Password: UIViewController {
         }
         
         else {
-            let cleanEmail = Email.Constants.email
+            let cleanEmail = Email.Data.email
             let cleanPassword = passIn.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
             Auth.auth().createUser(withEmail: cleanEmail, password: cleanPassword) { (result, err) in
@@ -36,7 +39,7 @@ class Password: UIViewController {
         
                 else {
                     let user = self.db.collection("users").document(cleanEmail)
-                    user.setData(["firstName": Name.Constants.firstName, "lastName": Name.Constants.lastName, "email": Email.Constants.email])
+                    user.setData(["firstName": Name.Data.firstName, "lastName": Name.Data.lastName, "email": Email.Data.email])
                     
                     self.performSegue(withIdentifier: "toHome", sender: self)
                 }
@@ -54,7 +57,8 @@ class Password: UIViewController {
     }
     
     func showError(error: String) {
-        
+        errorLabel.text = error
+        errorLabel.alpha = 1
     }
     
     @objc func handleTap() {

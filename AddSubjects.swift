@@ -1,25 +1,30 @@
 import UIKit
+import Firebase
+import FirebaseFirestore
 
 class AddSubjects: UIViewController {
     
     @IBOutlet weak var subjectIn: UITextField!
-    @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var timeIn: UITextField!
     @IBOutlet weak var breakIn: UITextField!
-    
-    let times = ["5", "10", "15", "25", "30", "45", "60", "75", "90", "105", "120"]
-    let breaks = ["1", "2", "3", "4", "5", "10", "15", "20", "25", "30", "35", "45", "50", "55", "60", "75", "90", "105", "120"]
+    @IBOutlet weak var enterButton: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
     
     var selectedTime: String?
     var selectedBreak: String?
     
+    let times = ["5", "10", "15", "25", "30", "45", "60", "75", "90", "105", "120"]
+    let breaks = ["1", "2", "3", "4", "5", "10", "15", "20", "25", "30", "35", "45", "50", "55", "60", "75", "90", "105", "120"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        backButton.layer.cornerRadius = 7.0
+        overrideUserInterfaceStyle = .light
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         view.addGestureRecognizer(tap)
+        
+        enterButton.layer.cornerRadius = 7.0
         
         timeIn.autocorrectionType = .no
         breakIn.autocorrectionType = .no
@@ -27,7 +32,7 @@ class AddSubjects: UIViewController {
         createPickerView()
     }
     
-    @IBAction func backTapped(_ sender: Any) {
+    @IBAction func enterTapped(_ sender: Any) {
         let error = validateFields()
         
         if error != nil {
@@ -36,34 +41,16 @@ class AddSubjects: UIViewController {
         
         else {
             let cleanSubject = subjectIn.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            Subject.SubjectList.myTempData.append(cleanSubject)
+            Subject.Data.mySubjects.append(cleanSubject)
             
             let cleanTime = timeIn.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            Subject.SubjectList.myTempTime.append(cleanTime)
+            Subject.Data.myTimes.append(cleanTime)
             
             let cleanBreak = breakIn.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            Subject.SubjectList.myTempBreak.append(cleanBreak)
+            Subject.Data.myBreaks.append(cleanBreak)
             
-            self.performSegue(withIdentifier: "back", sender: self)
+            self.dismiss(animated: true, completion: nil)
         }
-    }
-    
-    func validateFields() -> String? {
-        if subjectIn.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
-            timeIn.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
-            breakIn.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            return ("Please fill in all fields!")
-        }
-        
-        return nil
-    }
-    
-    func showError(error: String) {
-        
-    }
-    
-    @objc func handleTap() {
-        view.endEditing(true)
     }
     
     func createPickerView() {
@@ -80,6 +67,24 @@ class AddSubjects: UIViewController {
         breakIn.inputView = breakPicker
     }
     
+    func validateFields() -> String? {
+        if subjectIn.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
+            timeIn.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
+            breakIn.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            return ("Please fill in all fields!")
+        }
+        
+        return nil
+    }
+    
+    func showError(error: String) {
+        errorLabel.text = error
+        errorLabel.alpha = 1
+    }
+    
+    @objc func handleTap() {
+        view.endEditing(true)
+    }
 }
 
 extension AddSubjects: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -116,6 +121,6 @@ extension AddSubjects: UIPickerViewDelegate, UIPickerViewDataSource {
         else {
             selectedBreak = breaks[row]
             breakIn.text = selectedBreak
-        } 
+        }
     }
 }

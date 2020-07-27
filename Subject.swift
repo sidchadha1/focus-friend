@@ -4,11 +4,12 @@ import FirebaseFirestore
 
 class Subject: UIViewController {
     
-    struct SubjectStruct {
-        static var mySubjects = [String()]
-        static var myTimes = [String()]
-        static var myBreaks = [String()]
-        static var myUID = String()
+    struct Data {
+        static var mySubjects = Array<String>()
+        static var myTimes = Array<String>()
+        static var myBreaks = Array<String>()
+        static var myCompletedSessions = Array<String>()
+        static var myTotalTime = Array<String>()
     }
     
     @IBOutlet weak var tableView: UITableView!
@@ -20,6 +21,8 @@ class Subject: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        overrideUserInterfaceStyle = .light
+        
         addButton.layer.cornerRadius = 7.0
         nextButton.layer.cornerRadius = 7.0
         
@@ -27,41 +30,63 @@ class Subject: UIViewController {
         tableView.register(nib, forCellReuseIdentifier: "TableViewCell")
         tableView.delegate = self
         tableView.dataSource = self
-        
-        self.tableView?.rowHeight = 40.0
+        tableView.rowHeight = 40.0
     }
     
-    @IBAction func addTapped(_ sender: Any) {
+    @IBAction func addIsTapped(_ sender: Any) {
         self.performSegue(withIdentifier: "toAddSubjects", sender: self)
     }
     
+    @IBAction func nextIsTapped(_ sender: Any) {
+        let error = validateFields()
+        
+        if error != nil {
+            showError(error: error!)
+        }
+        
+        else {
+            let cleanEmail = Email.Data.email
+            
+            for _ in Data.mySubjects {
+                Data.myCompletedSessions.append("0")
+                Data.myTotalTime.append("0")
+                
+            }
+            
+            let user = self.db.collection("users").document(cleanEmail)
+            user.setData(["subjectArray": Data.mySubjects, "timeArray": Data.myTimes, "breakArray": Data.myBreaks, "completedSessionsArray": Data.myCompletedSessions, "totalTimeArray": Data.myTotalTime], merge: true)
+            
+            self.performSegue(withIdentifier: "toQuestionOne", sender: self)
+        }
+    }
     
-    @IBAction func nextTapped(_ sender: Any) {
+    func validateFields() -> String? {
+        if Data.mySubjects.count == 1 ||
+            Data.myTimes.count == 1 ||
+        Data.myBreaks.count == 1 {
+            return ("Please enter atleast one subject for us to provide statistics upon!")
+        }
         
-        let cleanEmail = Email.Constants.email
-        
-        let subjectDoc = self.db.collection("subjects").document()
-        subjectDoc.setData(["subjectArray": SubjectStruct.mySubjects, "timeArray": SubjectStruct.myTimes, "breakArray": SubjectStruct.myBreaks], merge: true)
-        
-        let user = self.db.collection("users").document(cleanEmail)
-        user.setData(["subjectUID": subjectDoc.documentID], merge: true)
-        
-        self.performSegue(withIdentifier: "toQuestionOne", sender: self)
+        return nil
+    }
+    
+    func showError(error: String) {
+        let alert = UIAlertController(title: "focusfriend", message: error, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "dismiss", style: UIAlertAction.Style.default, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
     }
 }
 
 extension Subject: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        SubjectStruct.mySubjects.count
+        Data.mySubjects.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
-        if cell.label.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            cell.alpha = 0.0
-        }
-        cell.label.text? = SubjectStruct.mySubjects[indexPath.row]
+        cell.label.text? = Data.mySubjects[indexPath.row]
         return cell
     }
 }

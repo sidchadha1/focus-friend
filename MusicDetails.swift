@@ -2,7 +2,7 @@ import UIKit
 
 class MusicDetails: UIViewController {
     
-    struct MusicList {
+    struct Data {
         static var myMusicList = [String()]
     }
     
@@ -29,6 +29,8 @@ class MusicDetails: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        overrideUserInterfaceStyle = .light
+        
         hipHopButton.layer.cornerRadius = 7.0
         popButton.layer.cornerRadius = 7.0
         countryButton.layer.cornerRadius = 7.0
@@ -43,7 +45,7 @@ class MusicDetails: UIViewController {
         if hipHopBoolean == false {
             hipHopButton.backgroundColor = darkGray
             hipHopBoolean = true
-            MusicList.myMusicList.append("Hip Hop")
+            Data.myMusicList.append("Hip Hop")
         }
         
         else {
@@ -51,13 +53,13 @@ class MusicDetails: UIViewController {
             hipHopBoolean = false
             
             var const = 0
-            for (index, music) in MusicList.myMusicList.enumerated() {
+            for (index, music) in Data.myMusicList.enumerated() {
                 if music == "Metal" {
                     const = index
                 }
             }
             
-            MusicList.myMusicList.remove(at: const)
+            Data.myMusicList.remove(at: const)
         }
     }
     
@@ -65,7 +67,7 @@ class MusicDetails: UIViewController {
         if popBoolean == false {
             popButton.backgroundColor = darkGray
             popBoolean = true
-            MusicList.myMusicList.append("Pop")
+            Data.myMusicList.append("Pop")
         }
         
         else {
@@ -73,13 +75,13 @@ class MusicDetails: UIViewController {
             popBoolean = false
             
             var const = 0
-            for (index, music) in MusicList.myMusicList.enumerated() {
+            for (index, music) in Data.myMusicList.enumerated() {
                 if music == "Pop" {
                     const = index
                 }
             }
             
-            MusicList.myMusicList.remove(at: const)
+            Data.myMusicList.remove(at: const)
         }
     }
     
@@ -87,7 +89,7 @@ class MusicDetails: UIViewController {
         if countryBoolean == false {
             countryButton.backgroundColor = darkGray
             countryBoolean = true
-            MusicList.myMusicList.append("Country")
+            Data.myMusicList.append("Country")
         }
         
         else {
@@ -95,13 +97,13 @@ class MusicDetails: UIViewController {
             countryBoolean = false
             
             var const = 0
-            for (index, music) in MusicList.myMusicList.enumerated() {
+            for (index, music) in Data.myMusicList.enumerated() {
                 if music == "Country" {
                     const = index
                 }
             }
             
-            MusicList.myMusicList.remove(at: const)
+            Data.myMusicList.remove(at: const)
         }
     }
     
@@ -109,7 +111,7 @@ class MusicDetails: UIViewController {
         if jazzBoolean == false {
             jazzButton.backgroundColor = darkGray
             jazzBoolean = true
-            MusicList.myMusicList.append("Jazz")
+            Data.myMusicList.append("Jazz")
         }
         
         else {
@@ -117,13 +119,13 @@ class MusicDetails: UIViewController {
             jazzBoolean = false
             
             var const = 0
-            for (index, music) in MusicList.myMusicList.enumerated() {
+            for (index, music) in Data.myMusicList.enumerated() {
                 if music == "Jazz" {
                     const = index
                 }
             }
             
-            MusicList.myMusicList.remove(at: const)
+            Data.myMusicList.remove(at: const)
         }
     }
     
@@ -131,7 +133,7 @@ class MusicDetails: UIViewController {
         if rockBoolean == false {
             rockButton.backgroundColor = darkGray
             rockBoolean = true
-            MusicList.myMusicList.append("Rock")
+            Data.myMusicList.append("Rock")
         }
         
         else {
@@ -139,13 +141,13 @@ class MusicDetails: UIViewController {
             rockBoolean = false
             
             var const = 0
-            for (index, music) in MusicList.myMusicList.enumerated() {
+            for (index, music) in Data.myMusicList.enumerated() {
                 if music == "Rock" {
                     const = index
                 }
             }
             
-            MusicList.myMusicList.remove(at: const)
+            Data.myMusicList.remove(at: const)
         }
     }
     
@@ -153,7 +155,7 @@ class MusicDetails: UIViewController {
         if metalBoolean == false {
             metalButton.backgroundColor = darkGray
             metalBoolean = true
-            MusicList.myMusicList.append("Metal")
+            Data.myMusicList.append("Metal")
         }
         
         else {
@@ -161,13 +163,13 @@ class MusicDetails: UIViewController {
             metalBoolean = false
             
             var const = 0
-            for (index, music) in MusicList.myMusicList.enumerated() {
+            for (index, music) in Data.myMusicList.enumerated() {
                 if music == "Metal" {
                     const = index
                 }
             }
             
-            MusicList.myMusicList.remove(at: const)
+            Data.myMusicList.remove(at: const)
         }
     }
     
@@ -175,7 +177,7 @@ class MusicDetails: UIViewController {
         if classicalBoolean == false {
             classicalButton.backgroundColor = darkGray
             classicalBoolean = true
-            MusicList.myMusicList.append("Classical")
+            Data.myMusicList.append("Classical")
         }
         
         else {
@@ -183,19 +185,18 @@ class MusicDetails: UIViewController {
             classicalBoolean = false
             
             var const = 0
-            for (index, music) in MusicList.myMusicList.enumerated() {
+            for (index, music) in Data.myMusicList.enumerated() {
                 if music == "Classical" {
                     const = index
                 }
             }
             
-            MusicList.myMusicList.remove(at: const)
+            Data.myMusicList.remove(at: const)
         }
     }
     
     @IBAction func enterTapped(_ sender: Any) {
-        QuestionOne.QuestionOneData.MusicList = MusicList.myMusicList
+        QuestionOne.Data.MusicList = Data.myMusicList
         self.dismiss(animated: true, completion: nil)
-        //self.performSegue(withIdentifier: "backQuestionOneTwo", sender: self)
     }
 }

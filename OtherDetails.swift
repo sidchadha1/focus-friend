@@ -2,7 +2,7 @@ import UIKit
 
 class OtherDetails: UIViewController {
     
-    struct Other {
+    struct Data {
         static var otherFactor = String()
     }
     
@@ -12,6 +12,8 @@ class OtherDetails: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        overrideUserInterfaceStyle = .light
+        
         enterButton.layer.cornerRadius = 7.0
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
@@ -20,10 +22,9 @@ class OtherDetails: UIViewController {
     
     @IBAction func enterTapped(_ sender: Any) {
         if factorTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
-            Other.otherFactor = factorTextField.text!
+            Data.otherFactor = factorTextField.text!
         }
-        QuestionOne.QuestionOneData.OtherFactor = Other.otherFactor
-        //self.performSegue(withIdentifier: "backQuestionOneThree", sender: self)
+        QuestionOne.Data.OtherFactor = Data.otherFactor
         self.dismiss(animated: true, completion: nil)
     }
     

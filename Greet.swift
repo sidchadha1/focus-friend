@@ -9,13 +9,10 @@ class Greet: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        overrideUserInterfaceStyle = .light
+        
         signUpLabel.layer.cornerRadius = 7.0
         logInLabel.layer.cornerRadius = 7.0
-        
-        caption?.alpha = 0.0
-        UIView.animate(withDuration: 1.5, delay: 0.5, options: .curveEaseIn, animations: {
-            self.caption?.alpha = 1.0
-        })
     }
     
     @IBAction func signUpTapped(_ sender: Any) {

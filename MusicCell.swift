@@ -1,24 +1,28 @@
 //
-//  TableViewCell.swift
+//  MusicCell.swift
 //  focusfriend
 //
-//  Created by Jayanth Peetla on 7/14/20.
+//  Created by Jayanth Peetla on 7/26/20.
 //  Copyright © 2020 Peetla. All rights reserved.
 //
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
+class MusicCell: UITableViewCell {
 
-    @IBOutlet weak var background: UIView!
+    @IBOutlet weak var back: UIView!
     @IBOutlet weak var label: UILabel!
+    
+    static func nib() -> UINib {
+        return UINib(nibName: "MusicCell", bundle: nil)
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         overrideUserInterfaceStyle = .light
-        // Initialization code
-        background.layer.cornerRadius = 7.0
+        
+        back.layer.cornerRadius = 7.0
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

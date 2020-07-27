@@ -6,9 +6,12 @@ class LogIn: UIViewController {
     @IBOutlet weak var emailIn: UITextField!
     @IBOutlet weak var passwordIn: UITextField!
     @IBOutlet weak var goButton: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        overrideUserInterfaceStyle = .light
         
         goButton.layer.cornerRadius = 7.0
         
@@ -29,11 +32,11 @@ class LogIn: UIViewController {
             
             Auth.auth().signIn(withEmail: cleanEmail, password: cleanPassword) { (result, error) in
                 if error != nil {
-                    self.showError(error: "There was an error in authenticating your information.")
+                    self.showError(error: error!.localizedDescription)
                 }
                 
                 else {
-                    Email.Constants.email = cleanEmail
+                    Email.Data.email = cleanEmail
                     self.performSegue(withIdentifier: "toHome2", sender: self)
                 }
             }
@@ -50,7 +53,8 @@ class LogIn: UIViewController {
     }
     
     func showError(error: String) {
-        
+        errorLabel.text = error
+        errorLabel.alpha = 1
     }
     
     @objc func handleTap() {

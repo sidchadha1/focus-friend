@@ -4,7 +4,7 @@ import FirebaseFirestore
 
 class QuestionOne: UIViewController {
     
-    struct QuestionOneData {
+    struct Data {
         static var MusicList = [String()]
         static var StudySettingList = [String()]
         static var OtherFactor = String()
@@ -32,6 +32,7 @@ class QuestionOne: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        overrideUserInterfaceStyle = .light
         
         musicButton.layer.cornerRadius = 7.0
         coloredPensButton.layer.cornerRadius = 7.0
@@ -41,112 +42,115 @@ class QuestionOne: UIViewController {
         otherButton.layer.cornerRadius = 7.0
         nextButton.layer.cornerRadius = 7.0
         
-        if QuestionOneData.musicBoolean == true {
+        if Data.musicBoolean == true {
             musicButton.backgroundColor = darkGray
         }
         
-        if QuestionOneData.coloredPensBoolean == true {
+        if Data.coloredPensBoolean == true {
             coloredPensButton.backgroundColor = darkGray
         }
         
-        if QuestionOneData.studySettingBoolean == true {
+        if Data.studySettingBoolean == true {
             studySettingButton.backgroundColor = darkGray
         }
         
-        if QuestionOneData.noNearbyDevicesBoolean == true {
+        if Data.noNearbyDevicesBoolean == true {
             noNearbyDevicesButton.backgroundColor = darkGray
         }
         
-        if QuestionOneData.pacingBoolean == true {
+        if Data.pacingBoolean == true {
             pacingButton.backgroundColor = darkGray
         }
         
-        if QuestionOneData.otherBoolean == true {
+        if Data.otherBoolean == true {
             otherButton.backgroundColor = darkGray
         }
     }
     
     @IBAction func musicTapped(_ sender: Any) {
-        if QuestionOneData.musicBoolean == false {
-            QuestionOneData.musicBoolean = true
+        if Data.musicBoolean == false {
+            Data.musicBoolean = true
             musicButton.backgroundColor = .darkGray
             self.performSegue(withIdentifier: "toMusicDetails", sender: self)
         }
         
         else {
-            QuestionOneData.musicBoolean = false
+            Data.musicBoolean = false
             musicButton.backgroundColor = .lightGray
         }
     }
     
     @IBAction func coloredPensTapped(_ sender: Any) {
-        if QuestionOneData.coloredPensBoolean == false {
-            QuestionOneData.coloredPensBoolean = true
+        if Data.coloredPensBoolean == false {
+            Data.coloredPensBoolean = true
             coloredPensButton.backgroundColor = .darkGray
         }
         
         else {
-            QuestionOneData.coloredPensBoolean = false
+            Data.coloredPensBoolean = false
             coloredPensButton.backgroundColor = .lightGray
         }
     }
     
     @IBAction func studySettingTapped(_ sender: Any) {
-        if QuestionOneData.studySettingBoolean == false {
-            QuestionOneData.studySettingBoolean = true
+        if Data.studySettingBoolean == false {
+            Data.studySettingBoolean = true
             studySettingButton.backgroundColor = .darkGray
             self.performSegue(withIdentifier: "toStudySettingDetails", sender: self)
         }
         
         else {
-            QuestionOneData.studySettingBoolean = false
+            Data.studySettingBoolean = false
             studySettingButton.backgroundColor = .lightGray
         }
     }
     
     @IBAction func noNearbyDevicesTapped(_ sender: Any) {
-        if QuestionOneData.noNearbyDevicesBoolean == false {
-            QuestionOneData.noNearbyDevicesBoolean = true
+        if Data.noNearbyDevicesBoolean == false {
+            Data.noNearbyDevicesBoolean = true
             noNearbyDevicesButton.backgroundColor = .darkGray
         }
         
         else {
-            QuestionOneData.noNearbyDevicesBoolean = false
+            Data.noNearbyDevicesBoolean = false
             noNearbyDevicesButton.backgroundColor = .lightGray
         }
     }
     
     @IBAction func pacingTapped(_ sender: Any) {
-        if QuestionOneData.pacingBoolean == false {
-            QuestionOneData.pacingBoolean = true
+        if Data.pacingBoolean == false {
+            Data.pacingBoolean = true
             pacingButton.backgroundColor = .darkGray
         }
         
         else {
-            QuestionOneData.pacingBoolean = false
+            Data.pacingBoolean = false
             pacingButton.backgroundColor = .lightGray
         }
     }
     
     @IBAction func otherTapped(_ sender: Any) {
-        if QuestionOneData.otherBoolean == false {
-            QuestionOneData.otherBoolean = true
+        if Data.otherBoolean == false {
+            Data.otherBoolean = true
             otherButton.backgroundColor = .darkGray
             self.performSegue(withIdentifier: "toOtherDetails", sender: self)
         }
         
         else {
-            QuestionOneData.otherBoolean = false
+            Data.otherBoolean = false
             otherButton.backgroundColor = .lightGray
         }
     }
     
     @IBAction func nextTapped(_ sender: Any) {
         
-        let cleanEmail = Email.Constants.email
+        let cleanEmail = Email.Data.email
         
         let user = self.db.collection("factors").document(cleanEmail)
-        user.setData(["music": QuestionOneData.MusicList, "coloredPens": QuestionOneData.coloredPensBoolean, "studySetting": QuestionOneData.StudySettingList, "noNearbyDevices": QuestionOneData.noNearbyDevicesBoolean, "constantPacing": QuestionOneData.pacingBoolean, "other": QuestionOneData.OtherFactor])
+        user.setData(["music": Data.MusicList, "coloredPens": Data.coloredPensBoolean, "studySetting": Data.StudySettingList, "noNearbyDevices": Data.noNearbyDevicesBoolean, "constantPacing": Data.pacingBoolean, "other": Data.OtherFactor], merge: true)
+        
+        let user1 = self.db.collection("factors").document(cleanEmail)
+        user1.setData(["musicBoolean": Data.musicBoolean, "coloredPensBoolean": Data.coloredPensBoolean, "studySettingBoolean": Data.studySettingBoolean, "noNearbyDevicesBoolean": Data.noNearbyDevicesBoolean, "constantPacingBoolean": Data.pacingBoolean, "otherBoolean": Data.otherBoolean], merge: true)
         
         self.performSegue(withIdentifier: "toThanks", sender: self)
     }

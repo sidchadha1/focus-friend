@@ -4,7 +4,7 @@ import FirebaseFirestore
 
 class Name: UIViewController {
     
-    struct Constants {
+    struct Data {
         static var firstName = String()
         static var lastName = String()
     }
@@ -12,9 +12,12 @@ class Name: UIViewController {
     @IBOutlet weak var firstNameIn: UITextField!
     @IBOutlet weak var lastNameIn: UITextField!
     @IBOutlet weak var goButton: UIButton!
-
+    @IBOutlet weak var errorLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        overrideUserInterfaceStyle = .light
         
         goButton.layer.cornerRadius = 7.0
         
@@ -35,8 +38,8 @@ class Name: UIViewController {
         else {
             let cleanFirstName = firstNameIn.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let cleanLastName = lastNameIn.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            Constants.firstName = cleanFirstName
-            Constants.lastName = cleanLastName
+            Data.firstName = cleanFirstName
+            Data.lastName = cleanLastName
 
             self.performSegue(withIdentifier: "toEmail", sender: self)
         }
@@ -52,7 +55,8 @@ class Name: UIViewController {
     }
 
     func showError(error: String) {
-
+        errorLabel.text = error
+        errorLabel.alpha = 1
     }
 
     @objc func handleTap() {

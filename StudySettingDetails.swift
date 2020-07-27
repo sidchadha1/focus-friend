@@ -2,7 +2,7 @@ import UIKit
 
 class StudySettingDetails: UIViewController {
     
-    struct StudySettingList {
+    struct Data {
         static var myStudySettingList = [String()]
     }
     
@@ -23,6 +23,8 @@ class StudySettingDetails: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        overrideUserInterfaceStyle = .light
+        
         libraryButton.layer.cornerRadius = 7.0
         bedroomButton.layer.cornerRadius = 7.0
         familyButton.layer.cornerRadius = 7.0
@@ -36,7 +38,7 @@ class StudySettingDetails: UIViewController {
         if libraryBoolean == false {
             libraryButton.backgroundColor = darkGray
             libraryBoolean = true
-            StudySettingList.myStudySettingList.append("Library")
+            Data.myStudySettingList.append("Library")
         }
         
         else {
@@ -44,13 +46,13 @@ class StudySettingDetails: UIViewController {
             libraryBoolean = false
             
             var const = 0
-            for (index, setting) in StudySettingList.myStudySettingList.enumerated() {
+            for (index, setting) in Data.myStudySettingList.enumerated() {
                 if setting == "Library" {
                     const = index
                 }
             }
             
-            StudySettingList.myStudySettingList.remove(at: const)
+            Data.myStudySettingList.remove(at: const)
         }
     }
     
@@ -58,7 +60,7 @@ class StudySettingDetails: UIViewController {
         if bedroomBoolean == false {
             bedroomButton.backgroundColor = darkGray
             bedroomBoolean = true
-            StudySettingList.myStudySettingList.append("Bedroom")
+            Data.myStudySettingList.append("Bedroom")
         }
         
         else {
@@ -66,13 +68,13 @@ class StudySettingDetails: UIViewController {
             bedroomBoolean = false
             
             var const = 0
-            for (index, setting) in StudySettingList.myStudySettingList.enumerated() {
-                if setting == "Family Areas" {
+            for (index, setting) in Data.myStudySettingList.enumerated() {
+                if setting == "Bedroom" {
                     const = index
                 }
             }
             
-            StudySettingList.myStudySettingList.remove(at: const)
+            Data.myStudySettingList.remove(at: const)
         }
     }
     
@@ -80,7 +82,7 @@ class StudySettingDetails: UIViewController {
         if familyBoolean == false {
             familyButton.backgroundColor = darkGray
             familyBoolean = true
-            StudySettingList.myStudySettingList.append("Family Areas")
+            Data.myStudySettingList.append("Family Areas")
         }
         
         else {
@@ -88,23 +90,22 @@ class StudySettingDetails: UIViewController {
             familyBoolean = false
             
             var const = 0
-            for (index, setting) in StudySettingList.myStudySettingList.enumerated() {
+            for (index, setting) in Data.myStudySettingList.enumerated() {
                 if setting == "Family Areas" {
                     const = index
                 }
             }
             
-            StudySettingList.myStudySettingList.remove(at: const)
+            Data.myStudySettingList.remove(at: const)
         }
     }
     
     @IBAction func enterTapped(_ sender: Any) {
         if otherTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
             otherBoolean = true
-            StudySettingList.myStudySettingList.append(otherTextField.text!)
+            Data.myStudySettingList.append(otherTextField.text!)
         }
-        QuestionOne.QuestionOneData.StudySettingList = StudySettingList.myStudySettingList
-        //self.performSegue(withIdentifier: "backQuestionOneOne", sender: self)
+        QuestionOne.Data.StudySettingList = Data.myStudySettingList
         self.dismiss(animated: true, completion: nil)
     }
     

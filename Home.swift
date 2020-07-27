@@ -7,7 +7,9 @@ class Home: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        name.text? = Name.Constants.firstName
+        overrideUserInterfaceStyle = .light
+        
+        name.text? = Name.Data.firstName
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         view.addGestureRecognizer(tap)

@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseFirestore
 
-class musicTip: UIViewController {
+class MusicTip: UIViewController {
     
     let db = Firestore.firestore()
     
@@ -26,9 +26,8 @@ class musicTip: UIViewController {
     
     var finalURL = "https://www.spotify.com"
 
-    
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var button: UIView!
+//    @IBOutlet weak var tableView: UITableView!
+//    @IBOutlet weak var button: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,16 +36,13 @@ class musicTip: UIViewController {
         
         loadMusic()
         
-        button.layer.cornerRadius = 7.0
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.openSpotify))
-        button.addGestureRecognizer(tap)
-        
-        let nib = MusicCell.nib()
-        tableView.register(nib, forCellReuseIdentifier: "MusicCell")
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.rowHeight = 40.0
+//        button.layer.cornerRadius = 7.0
+//
+//        let nib = MusicCell.nib()
+//        tableView.register(nib, forCellReuseIdentifier: "MusicCell")
+//        tableView.delegate = self
+//        tableView.dataSource = self
+//        tableView.rowHeight = 40.0
     }
     
     func loadMusic() {
@@ -54,61 +50,61 @@ class musicTip: UIViewController {
             if let document = document, document.exists {
                 let dataDescription = document.data()
                 self.MusicList = dataDescription!["music"] as! [String]
+                print(self.MusicList)
             }
             else {
                 print("Document does not exist")
             }
         }
     }
-
-    @objc func openSpotify() {
-        let url = URL(string: finalURL)!
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-    }
-
-}
-
-extension musicTip: UITableViewDelegate, UITableViewDataSource {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MusicList.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MusicCell", for: indexPath) as! MusicCell
-        cell.label.text = MusicList[indexPath.row]
-        return cell
-    }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let text = MusicList[indexPath.row]
-        
-        if text == "Hip Hop" {
-            finalURL = hipHopURL
-        }
-        
-        if text == "Pop" {
-            finalURL = popURL
-        }
-        
-        if text == "Classical" {
-            finalURL = classicalURL
-        }
-        
-        if text == "Rock" {
-            finalURL = rockURL
-        }
-        
-        if text == "Jazz" {
-            finalURL = jazzURL
-        }
-        
-        if text == "Metal" {
-            finalURL = metalURL
-        }
-        
-        if text == "Country" {
-            finalURL = countryURL
-        }
-    }
+//    @IBAction func buttontapped(_ sender: Any) {
+//        let url = URL(string: finalURL)!
+//        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//    }
 }
+
+//extension musicTip: UITableViewDelegate, UITableViewDataSource {
+//
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return MusicList.count
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "MusicCell", for: indexPath) as! MusicCell
+//        cell.label.text = MusicList[indexPath.row]
+//        return cell
+//    }
+//
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let text = MusicList[indexPath.row]
+//
+//        if text == "Hip Hop" {
+//            finalURL = hipHopURL
+//        }
+//
+//        if text == "Pop" {
+//            finalURL = popURL
+//        }
+//
+//        if text == "Classical" {
+//            finalURL = classicalURL
+//        }
+//
+//        if text == "Rock" {
+//            finalURL = rockURL
+//        }
+//
+//        if text == "Jazz" {
+//            finalURL = jazzURL
+//        }
+//
+//        if text == "Metal" {
+//            finalURL = metalURL
+//        }
+//
+//        if text == "Country" {
+//            finalURL = countryURL
+//        }
+//    }
+//}

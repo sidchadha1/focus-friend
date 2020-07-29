@@ -2,7 +2,7 @@
 //  TableViewCell.swift
 //  focusfriend
 //
-//  Created by Jayanth Peetla on 7/14/20.
+//  Created by Jayanth Peetla on 7/28/20.
 //  Copyright © 2020 Peetla. All rights reserved.
 //
 
@@ -13,11 +13,9 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var background: UIView!
     @IBOutlet weak var label: UILabel!
     
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        overrideUserInterfaceStyle = .light
-        // Initialization code
         background.layer.cornerRadius = 7.0
     }
 

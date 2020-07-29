@@ -32,7 +32,7 @@ class breatheTip: UIViewController {
     }
     
     @IBAction func studyTapped(_ sender: Any) {
-        label.text = "The environment in which you study is arguably one of the most important factors when it comes to maintaing steady productivy.  If you believe that you are able to work better by yourself with no one near you, we recommend that you find an individual workspace in either your bedroom or office with good lighting.  If you find yourself easily distracted, we recommend that you find a silent workspace near a trusted family member or friend that can hold you accountable for your work."
+        label.text = "Your study environment is essential to focusing.  If you believe that you are able to work better by yourself with no one near you, we recommend that you find an individual workspace in either your bedroom or office with good lighting.  If you find yourself easily distracted, we recommend that you find a silent workspace near a trusted family member or friend that can hold you accountable for your work."
     }
     
     @IBAction func noteTips(_ sender: Any) {

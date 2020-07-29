@@ -4,15 +4,18 @@ import FirebaseFirestore
 
 class Subject: UIViewController {
     
+    @IBOutlet weak var tableView: UITableView!
+    
+    var list = ["String", "Yes", "no"]
+    
     struct Data {
-        static var mySubjects = Array<String>()
+        static var mySubjects = [String()]
         static var myTimes = Array<String>()
         static var myBreaks = Array<String>()
         static var myCompletedSessions = Array<String>()
         static var myTotalTime = Array<String>()
     }
     
-    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     
@@ -20,6 +23,8 @@ class Subject: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print(Data.mySubjects)
         
         overrideUserInterfaceStyle = .light
         
@@ -30,14 +35,13 @@ class Subject: UIViewController {
         tableView.register(nib, forCellReuseIdentifier: "TableViewCell")
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 40.0
     }
     
-    @IBAction func addIsTapped(_ sender: Any) {
+    @IBAction func addTapped(_ sender: Any) {
         self.performSegue(withIdentifier: "toAddSubjects", sender: self)
     }
     
-    @IBAction func nextIsTapped(_ sender: Any) {
+    @IBAction func nextTapped(_ sender: Any) {
         let error = validateFields()
         
         if error != nil {
@@ -50,7 +54,6 @@ class Subject: UIViewController {
             for _ in Data.mySubjects {
                 Data.myCompletedSessions.append("0")
                 Data.myTotalTime.append("0")
-                
             }
             
             let user = self.db.collection("users").document(cleanEmail)
@@ -81,12 +84,12 @@ class Subject: UIViewController {
 extension Subject: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        Data.mySubjects.count
+        return Data.mySubjects.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
-        cell.label.text? = Data.mySubjects[indexPath.row]
+        cell.label?.text = Data.mySubjects[indexPath.row]
         return cell
     }
 }

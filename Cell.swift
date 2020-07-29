@@ -14,7 +14,7 @@ class Cell: UITableViewCell {
     @IBOutlet weak var label: UILabel!
     
     static func nib() -> UINib {
-        return UINib(nibName: "SubjectCell", bundle: nil)
+        return UINib(nibName: "Cell", bundle: nil)
     }
 
     override func awakeFromNib() {

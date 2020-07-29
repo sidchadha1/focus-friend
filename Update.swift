@@ -33,7 +33,7 @@ class Update: UIViewController {
                 StudyQuestionThree.FinalData.chosenTime = Int(timeInput.text!.trimmingCharacters(in: .whitespacesAndNewlines))!
                 StudyQuestionThree.FinalData.chosenBreak = Int(breakInput.text!.trimmingCharacters(in: .whitespacesAndNewlines))!
 
-                self.dismiss(animated: true, completion: nil)
+                self.performSegue(withIdentifier: "backToThree", sender: self)
             }
         }
         

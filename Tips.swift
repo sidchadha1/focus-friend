@@ -15,7 +15,7 @@ class Tips: UIViewController {
         let constantPacingVC = constantPacingTip()
         myControllers.append(constantPacingVC)
         
-        let musicVC = musicTip()
+        let musicVC = MusicTip()
         myControllers.append(musicVC)
         
         let notificationVC = noNearbyDeviceTip()

@@ -22,6 +22,8 @@ class StudyQuestionTwo: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print(StudyQuestionOne.Data.SubjectList)
+        
         overrideUserInterfaceStyle = .light
         
         nextButton.layer.cornerRadius = 7.0
@@ -76,7 +78,7 @@ extension StudyQuestionTwo: UITableViewDelegate, UITableViewDataSource {
         cell.label.text = Data.SubjectList[indexPath.row]
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Data.chosenSubjectIndex = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "SubjectCell", for: indexPath) as! SubjectCell

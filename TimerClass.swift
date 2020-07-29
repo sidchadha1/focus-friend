@@ -62,7 +62,7 @@ class TimerClass: UIViewController {
     }
     
     @IBAction func notificationsTapped(_ sender: Any) {
-        UIApplication.shared.open(URL(string: "UIApplication.openSettingsURLString")!)
+        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
     }
     
     @objc func count () {
